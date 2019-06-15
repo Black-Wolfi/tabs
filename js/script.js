@@ -1,7 +1,7 @@
 window.addEventListener('DOMContentLoaded', function (){
 
 	'use strict'
-		let ta111  = document.querySelectorAll('.info-header-tab');
+
 	let tab  = document.querySelectorAll('.info-header-tab');
 	let info = document.querySelector('.info-header');
 	let tabContent = document.querySelectorAll('.info-tabcontent');
@@ -43,9 +43,58 @@ info.addEventListener('click', function(event){
 							hideTabContent(0);
 							showTabContent(i);	
 							break // остановим
-							}
 						}
 					}
-				});
+				}
+			});
+
+
+
+
+/* Таймер **/
+let deadline = '2019-10-21';
+
+function getTimeRemaining (endtime) {
+		// Получение разницы 
+		let t = Date.parse(endtime) - Date.parse(new Date()),
+		second = Math.floor((t/1000)%60),
+		minutes = Math.floor((t/1000/60)%60),
+		hours = Math.floor(((t/1000/60/60)%24));
+		
+		/// var days = Math.floor(result/1000/60/60/24);
+
+		return {
+			'total': t, // для остановки таймера 
+			'hours': hours,
+			'minutes': minutes,
+			'second': second
+		};
+	}
+
+
+	function setClock(id, endtime) {
+
+		let timer =  document.getElementById(id),
+			hours = timer.querySelector('.hours'),
+			minutes = timer.querySelector('.minutes'),
+			second = timer.querySelector('.seconds'),
+			timeInterval = setInterval(updateClock,1000);
+
+		function updateClock() {
+
+			// передача в верстку
+			let t = getTimeRemaining(endtime);
+				hours.textContent = t.hours;
+				minutes.textContent = t.minutes;
+				second.textContent = t.second;
+
+			if (t.total <=0){
+				clearInterval(timeInterval);
+			}
+		}
+
+	}
+
+	setClock('timer', deadline);
 
 });
